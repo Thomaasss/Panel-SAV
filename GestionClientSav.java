@@ -4,7 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.swing.table.DefaultTableModel;
 
 public class GestionClientSav extends JFrame {
@@ -112,9 +115,40 @@ public class GestionClientSav extends JFrame {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 String dateFormatted = dateFormat.format(date);
 
-                // Ajouter les données au modèle de tableau, y compris le numéro de ticket et l'état (toujours "Nouveau")
+                // Ajouter les données au modèle de tableau
                 String[] rowData = {Integer.toString(ticketCounter), nom, prenom, telephone, reclamation, typeReclamation, dateFormatted, "Nouveau"};
                 tableModel.addRow(rowData);
+
+                // Connexion à la base de données
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+
+                    String url = "jdbc:mysql://localhost:3306/sav";
+                    String user = "root";
+                    String password = "";
+
+                    Connection conn = DriverManager.getConnection(url, user, password);
+
+                    // Insérer les données dans la base de données
+                    String sql = "INSERT INTO sav (nom, prenom, telephone, reclamation, type_reclamation, date) VALUES (?, ?, ?, ?, ?, ?)";
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                    preparedStatement.setString(1, nom);
+                    preparedStatement.setString(2, prenom);
+                    preparedStatement.setString(3, telephone);
+                    preparedStatement.setString(4, reclamation);
+                    preparedStatement.setString(5, typeReclamation);
+                    preparedStatement.setString(6, dateFormatted);
+
+                    preparedStatement.executeUpdate();
+
+                    conn.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Erreur lors de l'envoi des données à la base de données");
+                } catch (ClassNotFoundException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
         });
         formulairePanel.add(envoyerButton, constraints);
