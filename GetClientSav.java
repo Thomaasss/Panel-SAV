@@ -47,7 +47,7 @@ public class GetClientSav extends JFrame {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                String ticketNumber = resultSet.getString("numero_ticket");
+                String ticketNumber = resultSet.getString("id");
                 String nom = resultSet.getString("nom");
                 String prenom = resultSet.getString("prenom");
                 String telephone = resultSet.getString("telephone");
