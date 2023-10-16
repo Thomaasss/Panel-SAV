@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `sav` (
 --
 
 INSERT INTO `sav` (`id`, `nom`, `prenom`, `telephone`, `reclamation`, `type_reclamation`, `date`, `etat`) VALUES
-(1, 'Lopes', 'Thomas', '0638383939', 'Mauvais état', 'Produit défectueux ', '2023-10-02 15:04:13', 'Nouveau');
+(1, 'Leflou', 'Gauthier', '0606060606', 'Produit reçu en mauvais état', 'Produit défectueux ', '2023-10-02 15:04:13', 'Nouveau');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
